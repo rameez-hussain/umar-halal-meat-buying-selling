@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\SaleController;
+use App\Http\Controllers\SalesController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -16,5 +19,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/purchases', [PurchaseController::class, 'index'])
+    ->middleware(['auth', 'verified'])->name('purchases.index');
+
+Route::get('/sales', [SalesController::class, 'index'])
+    ->middleware(['auth', 'verified'])->name('sales.index');
 
 require __DIR__.'/auth.php';
