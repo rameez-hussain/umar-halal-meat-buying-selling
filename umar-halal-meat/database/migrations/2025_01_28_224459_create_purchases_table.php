@@ -17,6 +17,7 @@ return new class extends Migration
             $table->float('adam')->nullable();
             $table->float('miscellaneous')->nullable();
             $table->string('invoice')->nullable();
+            $table->timestamp('date');
             $table->timestamps();
         });
     }
