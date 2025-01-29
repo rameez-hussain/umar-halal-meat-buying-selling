@@ -23,6 +23,12 @@ Route::middleware('auth')->group(function () {
 Route::get('/purchases', [PurchaseController::class, 'index'])
     ->middleware(['auth', 'verified'])->name('purchases.index');
 
+Route::get('/purchases/create', [PurchaseController::class, 'create'])
+    ->middleware(['auth', 'verified'])->name('purchases.create');
+
+Route::post('/purchases/save', [PurchaseController::class, 'save'])
+    ->middleware(['auth', 'verified'])->name('purchases.save');
+
 Route::get('/sales', [SalesController::class, 'index'])
     ->middleware(['auth', 'verified'])->name('sales.index');
 
