@@ -10,7 +10,8 @@ class PurchaseController extends Controller
 {
     public function index()
     {
-        $purchases = Purchase::query()->get();
+        $purchases = Purchase::query()->get()->collect()
+            ->sortBy(fn ($purchase) => $purchase->date);
 
         return view('purchase.index', [
             'purchases' => $purchases,

@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
-use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SalesController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,5 +30,11 @@ Route::post('/purchases/save', [PurchaseController::class, 'save'])
 
 Route::get('/sales', [SalesController::class, 'index'])
     ->middleware(['auth', 'verified'])->name('sales.index');
+
+Route::get('/sales/create', [SalesController::class, 'create'])
+    ->middleware(['auth', 'verified'])->name('sales.create');
+
+Route::post('/sales/save', [SalesController::class, 'save'])
+    ->middleware(['auth', 'verified'])->name('sales.save');
 
 require __DIR__.'/auth.php';
