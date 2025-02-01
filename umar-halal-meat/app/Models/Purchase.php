@@ -38,4 +38,21 @@ class Purchase extends Model
             'updated_at'    => 'immutable_datetime',
         ];
     }
+
+    public static function getMonthlyTotals()
+    {
+    return self::query()
+        ->selectRaw('
+            DATE_FORMAT(date, "%Y-%m") as month,
+            SUM(magna) as magna_total,
+            SUM(hikmat) as hikmat_total,
+            SUM(primer) as primer_total,
+            SUM(jaan) as jaan_total,
+            SUM(adam) as adam_total,
+            SUM(miscellaneous) as miscellaneous_total
+        ')
+        ->groupBy('month')
+        ->orderBy('month', 'asc')
+        ->get();
+    }
 }

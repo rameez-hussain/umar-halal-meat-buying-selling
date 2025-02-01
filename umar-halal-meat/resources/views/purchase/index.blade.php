@@ -7,67 +7,90 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="flex justify-end">
-                <a href="{{ route('purchases.create') }}" class="px-4 py-2 rounded bg-blue-200 cursor-pointer">Create</a>
+            
+            <div class="flex justify-end mb-4">
+                <form method="GET" action="{{ route('purchases.index') }}" class="flex items-center space-x-2">
+                    <select name="year" class="border rounded p-2">
+                        @foreach($availableYears as $year)
+                            <option value="{{ $year }}" {{ $year == $selectedYear ? 'selected' : '' }}>
+                                {{ $year }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    <select name="month" class="border rounded p-2">
+                        @foreach([
+                            '01' => 'January', '02' => 'February', '03' => 'March',
+                            '04' => 'April', '05' => 'May', '06' => 'June',
+                            '07' => 'July', '08' => 'August', '09' => 'September',
+                            '10' => 'October', '11' => 'November', '12' => 'December'
+                        ] as $num => $name)
+                            <option value="{{ $num }}" {{ $num == $selectedMonth ? 'selected' : '' }}>
+                                {{ $name }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">
+                        Filter
+                    </button>
+                </form>
+                <a href="{{ route('purchases.create') }}" class="ml-2 px-4 py-2 rounded bg-blue-200 cursor-pointer">Create</a>
             </div>
+
             <div class="relative overflow-x-auto mt-4">
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
-                            <th scope="col" class="px-6 py-3">
-                                Date
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Magna
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Hikmat
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Primer
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Jaan
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Adam
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Miscellaneous
-                            </th>
+                            <th scope="col" class="px-6 py-3">Date</th>
+                            <th scope="col" class="px-6 py-3">Magna</th>
+                            <th scope="col" class="px-6 py-3">Hikmat</th>
+                            <th scope="col" class="px-6 py-3">Primer</th>
+                            <th scope="col" class="px-6 py-3">Jaan</th>
+                            <th scope="col" class="px-6 py-3">Adam</th>
+                            <th scope="col" class="px-6 py-3">Miscellaneous</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($purchases as $purchase)
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ $purchase->date->format('d-m-Y') }}
-                            </th>
-                            <td class="px-6 py-4">
-                                {{ $purchase->magna }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $purchase->hikmat }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $purchase->primer }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $purchase->jaan }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $purchase->adam }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $purchase->miscellaneous }}
+                        @forelse($purchases as $purchase)
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {{ $purchase->date->format('d-m-Y') }}
+                                </th>
+                                <td class="px-6 py-4">{{ number_format($purchase->magna, 2) }}</td>
+                                <td class="px-6 py-4">{{ number_format($purchase->hikmat, 2) }}</td>
+                                <td class="px-6 py-4">{{ number_format($purchase->primer, 2) }}</td>
+                                <td class="px-6 py-4">{{ number_format($purchase->jaan, 2) }}</td>
+                                <td class="px-6 py-4">{{ number_format($purchase->adam, 2) }}</td>
+                                <td class="px-6 py-4">{{ number_format($purchase->miscellaneous, 2) }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="7" class="text-center py-4">No purchases found for this month.</td>
+                            </tr>
+                        @endforelse
+
+                        <tr class="bg-gray-200 font-bold">
+                            <td class="px-6 py-4 text-gray-900">Total for {{ \Carbon\Carbon::createFromFormat('m', $selectedMonth)->format('F') }}</td>
+                            <td class="px-6 py-4">{{ number_format($monthlyTotals['magna'], 2) }}</td>
+                            <td class="px-6 py-4">{{ number_format($monthlyTotals['hikmat'], 2) }}</td>
+                            <td class="px-6 py-4">{{ number_format($monthlyTotals['primer'], 2) }}</td>
+                            <td class="px-6 py-4">{{ number_format($monthlyTotals['jaan'], 2) }}</td>
+                            <td class="px-6 py-4">{{ number_format($monthlyTotals['adam'], 2) }}</td>
+                            <td class="px-6 py-4">{{ number_format($monthlyTotals['miscellaneous'], 2) }}</td>
+                        </tr>
+
+                        <tr class="bg-gray-300 font-bold">
+                            <td class="px-6 py-4 text-gray-900">Grand Total</td>
+                            <td colspan="6" class="px-6 py-4 text-center">
+                                {{ number_format($monthlyTotals['grand'], 2) }}
                             </td>
                         </tr>
-                        @endforeach
+
                     </tbody>
                 </table>
             </div>
+
         </div>
     </div>
-
-    
 </x-app-layout>

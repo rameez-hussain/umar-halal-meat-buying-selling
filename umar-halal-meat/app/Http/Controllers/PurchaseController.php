@@ -8,13 +8,39 @@ use Illuminate\Http\Request;
 
 class PurchaseController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $purchases = Purchase::query()->get()->collect()
-            ->sortBy(fn ($purchase) => $purchase->date);
+        $year = $request->input('year', now()->year);
+        $month = $request->input('month', now()->format('m'));
+
+        $purchases = Purchase::query()
+            ->whereYear('date', $year)
+            ->whereMonth('date', $month)
+            ->orderBy('date')
+            ->get();
+
+        $monthlyTotals = [
+            'magna' => $purchases->sum('magna'),
+            'hikmat' => $purchases->sum('hikmat'),
+            'primer' => $purchases->sum('primer'),
+            'jaan' => $purchases->sum('jaan'),
+            'adam' => $purchases->sum('adam'),
+            'miscellaneous' => $purchases->sum('miscellaneous'),
+        ];
+
+        $monthlyTotals['grand'] = array_sum($monthlyTotals);
+
+        $availableYears = Purchase::selectRaw('YEAR(date) as year')
+            ->distinct()
+            ->orderBy('year', 'desc')
+            ->pluck('year');
 
         return view('purchase.index', [
             'purchases' => $purchases,
+            'selectedYear' => $year,
+            'selectedMonth' => $month,
+            'availableYears' => $availableYears,
+            'monthlyTotals' => $monthlyTotals,
         ]);
     }
 

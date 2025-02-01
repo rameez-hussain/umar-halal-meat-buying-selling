@@ -2,22 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PurchaseCreate;
 use App\Http\Requests\SaleCreate;
-use App\Models\Purchase;
 use App\Models\Sales;
+use Illuminate\Http\Request;
 
 class SalesController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $year = $request->input('year', now()->year);
+        $month = $request->input('month', now()->format('m'));
+
         $sales = Sales::query()
-            ->get()
-            ->collect()
-            ->sortBy(fn ($sale) => $sale->date);
+            ->whereYear('date', $year)
+            ->whereMonth('date', $month)
+            ->orderBy('date')
+            ->get();
+
+        $monthlyTotals = [
+            'cash' => $sales->sum('cash'),
+            'card' => $sales->sum('card'),
+        ];
+
+        $monthlyTotals['grand'] = array_sum($monthlyTotals);
+
+        $availableYears = Sales::selectRaw('YEAR(date) as year')
+            ->distinct()
+            ->orderBy('year', 'desc')
+            ->pluck('year');
 
         return view('sales.index', [
             'sales' => $sales,
+            'selectedYear' => $year,
+            'selectedMonth' => $month,
+            'availableYears' => $availableYears,
+            'monthlyTotals' => $monthlyTotals,
         ]);
     }
 

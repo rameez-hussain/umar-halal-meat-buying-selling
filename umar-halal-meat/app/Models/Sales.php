@@ -28,4 +28,17 @@ class Sales extends Model
             'updated_at' => 'immutable_datetime',
         ];
     }
+
+    public static function getMonthlyTotals()
+    {  
+        return self::query()
+            ->selectRaw('
+                DATE_FORMAT(date, "%Y-%m") as month,
+                SUM(cash) as cash_total,
+                SUM(card) as card_total,
+            ')
+            ->groupBy('month')
+            ->orderBy('month', 'asc')
+            ->get();
+    }
 }
