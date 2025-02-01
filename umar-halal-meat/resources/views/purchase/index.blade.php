@@ -48,6 +48,8 @@
                             <th scope="col" class="px-6 py-3">Primer</th>
                             <th scope="col" class="px-6 py-3">Jaan</th>
                             <th scope="col" class="px-6 py-3">Adam</th>
+                            <th scope="col" class="px-6 py-3">Millat</th>
+                            <th scope="col" class="px-6 py-3">Eggs</th>
                             <th scope="col" class="px-6 py-3">Miscellaneous</th>
                         </tr>
                     </thead>
@@ -62,6 +64,8 @@
                                 <td class="px-6 py-4">{{ number_format($purchase->primer, 2) }}</td>
                                 <td class="px-6 py-4">{{ number_format($purchase->jaan, 2) }}</td>
                                 <td class="px-6 py-4">{{ number_format($purchase->adam, 2) }}</td>
+                                <td class="px-6 py-4">{{ number_format($purchase->millat, 2) }}</td>
+                                <td class="px-6 py-4">{{ number_format($purchase->eggs, 2) }}</td>
                                 <td class="px-6 py-4">{{ number_format($purchase->miscellaneous, 2) }}</td>
                             </tr>
                         @empty
@@ -77,12 +81,14 @@
                             <td class="px-6 py-4">{{ number_format($monthlyTotals['primer'], 2) }}</td>
                             <td class="px-6 py-4">{{ number_format($monthlyTotals['jaan'], 2) }}</td>
                             <td class="px-6 py-4">{{ number_format($monthlyTotals['adam'], 2) }}</td>
+                            <td class="px-6 py-4">{{ number_format($monthlyTotals['millat'], 2) }}</td>
+                            <td class="px-6 py-4">{{ number_format($monthlyTotals['eggs'], 2) }}</td>
                             <td class="px-6 py-4">{{ number_format($monthlyTotals['miscellaneous'], 2) }}</td>
                         </tr>
 
                         <tr class="bg-gray-300 font-bold">
                             <td class="px-6 py-4 text-gray-900">Grand Total</td>
-                            <td colspan="6" class="px-6 py-4 text-center">
+                            <td colspan="8" class="px-6 py-4 text-end">
                                 {{ number_format($monthlyTotals['grand'], 2) }}
                             </td>
                         </tr>

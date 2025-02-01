@@ -14,6 +14,8 @@ class PurchaseCreate extends FormRequest
             'primer'        => ['required', 'numeric', 'min:0', 'regex:/^\d+(\.\d{2})?$/'],
             'jaan'          => ['required', 'numeric', 'min:0', 'regex:/^\d+(\.\d{2})?$/'],
             'adam'          => ['required', 'numeric', 'min:0', 'regex:/^\d+(\.\d{2})?$/'],
+            'millat'        => ['required', 'numeric', 'min:0', 'regex:/^\d+(\.\d{2})?$/'],
+            'eggs'          => ['required', 'numeric', 'min:0', 'regex:/^\d+(\.\d{2})?$/'],
             'miscellaneous' => ['required', 'numeric', 'min:0', 'regex:/^\d+(\.\d{2})?$/'],
             'date'          => ['required', 'date', 'unique:purchases,date'],
         ];

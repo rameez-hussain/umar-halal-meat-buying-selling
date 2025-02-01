@@ -71,7 +71,7 @@
                         <!-- Grand Total Row -->
                         <tr class="bg-gray-300 font-bold">
                             <td class="px-6 py-4 text-gray-900">Grand Total</td>
-                            <td colspan="6" class="px-6 py-4 text-center">
+                            <td colspan="6" class="px-6 py-4 text-end">
                                 {{ number_format($monthlyTotals['grand'], 2) }}
                             </td>
                         </tr>

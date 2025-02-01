@@ -25,6 +25,8 @@ class PurchaseController extends Controller
             'primer' => $purchases->sum('primer'),
             'jaan' => $purchases->sum('jaan'),
             'adam' => $purchases->sum('adam'),
+            'millat' => $purchases->sum('millat'),
+            'eggs' => $purchases->sum('eggs'),
             'miscellaneous' => $purchases->sum('miscellaneous'),
         ];
 
@@ -59,6 +61,8 @@ class PurchaseController extends Controller
             'primer'        => number_format(floatval($purchase['primer']), 2, '.', ''),
             'jaan'          => number_format(floatval($purchase['jaan']), 2, '.', ''),
             'adam'          => number_format(floatval($purchase['adam']), 2, '.', ''),
+            'millat'        => number_format(floatval($purchase['millat']), 2, '.', ''),
+            'eggs'          => number_format(floatval($purchase['eggs']), 2, '.', ''),
             'miscellaneous' => number_format(floatval($purchase['miscellaneous']), 2, '.', ''),
             'date'          => date('Y-m-d', strtotime($purchase['date'])),
         ]);
