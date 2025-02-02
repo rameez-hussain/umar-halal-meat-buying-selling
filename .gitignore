@@ -1,6 +1,7 @@
 /.phpunit.cache
 /node_modules
 /public/hot
+/public
 /public/storage
 /storage/*.key
 /storage/pail
@@ -20,3 +21,4 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+index.php
