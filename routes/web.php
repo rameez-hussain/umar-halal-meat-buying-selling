@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\SalesController;
+use App\Http\Controllers\TemperatureLogController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -36,5 +37,14 @@ Route::get('/sales/create', [SalesController::class, 'create'])
 
 Route::post('/sales/save', [SalesController::class, 'save'])
     ->middleware(['auth', 'verified'])->name('sales.save');
+
+Route::get('/temperature-logs', [TemperatureLogController::class, 'index'])
+    ->middleware(['auth', 'verified'])->name('temperatureLogs.index');
+
+Route::get('/temperature-logs/create', [TemperatureLogController::class, 'create'])
+    ->middleware(['auth', 'verified'])->name('temperatureLogs.create');
+
+Route::post('/temperature-logs/save', [TemperatureLogController::class, 'save'])
+    ->middleware(['auth', 'verified'])->name('temperatureLogs.save');
 
 require __DIR__.'/auth.php';
